@@ -1,0 +1,101 @@
+% CLOSE CALL GIVING 1 DEFENSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@Function 1A6228
+    BEQ    A0, R0, 80277958
+
+@Hook 1A6220
+%Close Call
+    JAL         $IsBadgeEquiped
+    ADDIU       A0, R0, 112             % id of badge (Close Call = 112)
+    BEQ         A0, R0, .NoCloseCall    % Branch if Close Call is not equipped
+    NOP
+%Close Call is equipped
+    ADDIU       S0, S0, FFFFFFFF        % Reduces damage by 1
+.NoCloseCall
+%Last Stand
+    JAL         $IsBadgeEquiped
+    ADDIU       A0, R0, 111             % Id of badge (Last Stand = 111)
+    BEQ         A0, R0, .NoLastStand    % Branch if Last Stand is not equipped
+    NOP
+%Last Stand is equipped 
+    J           80277948
+    NOP
+.NoLastStand
+    J           80277958
+    NOP
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% REMOVING LUCK FROM [PRETTY LUCKY, LUCKY DAY, CLOSE CALL] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@Hook 1A5C28        % Removing Lucky Badges     
+J           80277410     
+NOP
+
+/%
+@Hook 1A5C28        % Removing Lucky Badges
+    J           802773A8
+    NOP
+%/
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% PRETTY LUCKY GIVING SOME EXTRA SP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#new:Function $FixSPOverflow
+	PUSH t0, t1, t2
+	LAB t0, 8010F520 %current sp as int
+	LAB t1, 8010F51E %starspirits saved (max SP)
+	SLT t2, t0, t1 %if current sp is less than max, store 01 into t2
+	BNE t2, r0, .end %if t2 = 1 (not 0)
+	NOP
+	SAB t1, 8010F520
+	SAB r0, 8010F521
+    .end
+	POP t0, t1, t2
+	JR RA
+	NOP
+
+@Hook 1726F0                                % Hooking into the SP Regen Function
+  PUSH        V0                            % Putting the registers onto the stack to work with them
+  JAL         $IsBadgeEquiped               % Check for Pretty Lucky
+  ADDIU       A0, R0, F1                    % id of badge (Pretty Lucky - F1) - HAS TO BE LOADED INTO A0 FOR $IsBadgeEquiped
+  BEQ         A0, R0, .NotEquipped          % Branch on the badge NOT being equipped (GoTo .NotEquipped)
+  NOP                                       % Nullpointer below the BEQ, because a BEQ ALWAYS reads the next line too
+  ORI 		  v0, r0, 0001
+  SAB 		  v0, 8010EFAF 					% If 01, star appears
+  LIO         S0, $SPSubtractArguments3      % Load the Arguments for SPSubtractMainFunction
+  JAL         $SPSubtractMainFunction       % Execute SPSubtractMainFunction
+  NOP                                       % Nullpointer below the JAL, because a JAL ALWAYS reads the next line too
+  JAL         $FixSPOverflow                
+  NOP
+  ADDIU       V0, R0, 2                     % Set V0 to == 2 so the Function can return
+  POP         V0                            % Clearing/Emptying the registers by removing them from the stack
+  ADDIU       V0, R0, 2                     % Set V0 to == 2 so the Function can return
+  J           80243E14                      % Return to the Script
+  NOP                                       % Nullpointer below the J, because a J ALWAYS reads the next line too
+  .NotEquipped
+  ORI 		  v0, r0, 0000
+  SAB 		  v0, 8010EFAF 					% If 00, no star appears
+  LIO         S0, $SPSubtractArgument2      % Load the Arguments for SPSubtractMainFunction
+  JAL         $SPSubtractMainFunction       % Execute SPSubtractMainFunction
+  NOP                                       % Nullpointer below the JAL, because a JAL ALWAYS reads the next line too
+  JAL         $FixSPOverflow                
+  NOP
+  ADDIU       V0, R0, 2                     % Set V0 to == 2 so the Function can return
+  POP         V0                            % Clearing/Emptying the registers by removing them from the stack
+  ADDIU       V0, R0, 2                     % Set V0 to == 2 so the Function can return
+  J           80243E14                      % Return to the Script
+  NOP                                       % Nullpointer below the J, because a J ALWAYS reads the next line too
+
+#new:Data $SPSubtractArguments3
+FFFFFFFF 000000C0                           % DO NOT CHANGE - It doubles the regen!
+
+#new:Data $SPSubtractArgument2
+FFFFFFFF 000000E0
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

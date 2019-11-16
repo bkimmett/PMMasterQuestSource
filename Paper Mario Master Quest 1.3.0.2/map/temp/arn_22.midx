@@ -1,0 +1,13 @@
+$Script_Main:Script_Main:0:80240000:104
+$Start:Unknown:0:80240000:0
+$MapTattle:IntTable:104:80240104:74
+$Script_Entry1:Script:178:80240178:5C
+$Script_Entry2:Script:1D4:802401D4:5C
+$Script_MakeEntities:Script:230:80240230:48
+$Script_MakeExits:Script:278:80240278:48
+$Header:Header:2C0:802402C0:40
+$EntryList:EntryList:300:80240300:20
+$Function_GetTattle:Function:320:80240320:14
+$ASCII_arn_21_Literal:ASCII:334:80240334:C
+$ASCII_sbk_03_Literal:ASCII:340:80240340:C
+$End:Unknown:34C:8024034C:27CB4

@@ -1,0 +1,17 @@
+$Script_Main:Script_Main:0:80240000:124
+$Start:Unknown:0:80240000:0
+$Script_MakeEntities:Script:124:80240124:94
+$MapTattle:IntTable:1B8:802401B8:88
+$Script_MakeExits:Script:240:80240240:64
+$Script_Entry1:Script:2A4:802402A4:5C
+$Script_Entry0:Script:300:80240300:5C
+$Script_Entry2:Script:35C:8024035C:5C
+$Header:Header:3B8:802403B8:40
+$EntryList:EntryList:3F8:802403F8:30
+$Script_RockDestroyed:Script:428:80240428:20
+$Script_SmashBlock:Script:448:80240448:20
+$Function_GetTattle:Function:468:80240468:14
+$ASCII_kmr_33_Literal:ASCII:47C:8024047C:C
+$ASCII_kmr_10_Literal:ASCII:488:80240488:C
+$ASCII_kmr_11_Literal:ASCII:494:80240494:C
+$End:Unknown:4A0:802404A0:27B60

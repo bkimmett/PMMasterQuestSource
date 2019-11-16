@@ -1,0 +1,15 @@
+$MapTattle:IntTable:0:80240000:FC
+$Start:Unknown:0:80240000:0
+$Script_Main:Script_Main:FC:802400FC:D0
+$Script_Exit1:Script:1CC:802401CC:5C
+$Script_Exit0:Script:228:80240228:5C
+$Script_Exit2:Script:284:80240284:5C
+$Script_MakeEntities:Script:2E0:802402E0:48
+$Header:Header:328:80240328:40
+$EntryList:EntryList:368:80240368:30
+$Script_MakeExits:Script:398:80240398:2C
+$Function_Init:Function_Init:3C4:802403C4:2C
+$Function_GetTattle:Function:3F0:802403F0:14
+$ASCII_kmr_40_Literal:ASCII:404:80240404:C
+$ASCII_kpa_tex_Literal:ASCII:410:80240410:8
+$End:Unknown:418:80240418:27BE8

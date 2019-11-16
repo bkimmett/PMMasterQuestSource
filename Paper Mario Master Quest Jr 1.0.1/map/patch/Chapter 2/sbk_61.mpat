@@ -1,0 +1,7 @@
+
+% Overwrite badge block location since we've modified it in the editor.
+@ $Script_80240350
+    0:  Call     MakeEntity       	( .Entity:HiddenRedBlock {Vec3d:Entity80240350} {Angle:Entity80240350} .Item:AttackFXC 80000000 )
+   28:  Call     AssignBlockFlag 	( *GameFlag[032E] )
+   38:  Return
+   40:  End

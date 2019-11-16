@@ -1,0 +1,3 @@
+
+@ $Script_UseItem
+[13C]  Call     ItemDamageEnemy 	( *Var[0] 38000020 80080564 00000001 00000020 )

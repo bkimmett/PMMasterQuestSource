@@ -1,0 +1,39 @@
+
+@ $Script_Main
+    0:  Set      *WorldMapLocation 0000000A 
+   10:  Call     SetSpriteShading 	( FFFFFFFF )
+   20:  If       *StoryProgress ==  FFFFFFC1 
+   30:     Call     DisablePulseStone 	( .False )
+   40:  EndIf
+   48:  Call     SetCamPerspective 	( .Default 00000003 00000019 00000010 00001000 )
+   68:  Call     SetCamBGColor 	( .Default 00000000 00000000 00000000 )
+   84:  Call     SetCamFlag2 	( .Default .True )
+   98:  Call     SetCamFlag4 	( .Default .False )
+		Exec     $Script_SandFlow
+   AC:  ExecWait $Script_80240440 
+   B8:  Call     $Function_80240000 ( )
+   C4:  Call     SetMusicTrack 	( 00000000 .Song:DryDryDesert 00000000 00000008 )
+   E0:  Exec     $Script_802402C0 
+   EC:  Wait     00000001 
+   F8:  Return
+  100:  End
+  
+#new:Script $Script_SandFlow
+	Call     EnableTexPanning 	( {Model:SandFlowA} .True )
+	Call     EnableTexPanning 	( {Model:SandFlowB} .True )
+	Set      *Var[0] 00000000 
+	Loop     
+		Add      *Var[0] 100`  
+		Call     802C9364 ( 00000001 00000000 00000000 *Var[0] )
+		Wait     00000001 
+	EndLoop
+	Return
+	End
+
+	@ $Script_80240440
+    0:  Call     MakeEntity  	( .Entity:BrickBlock {Vec4d:Entity80240440} 80000000 )
+   24:  Call     MakeEntity  	( .Entity:BrickBlock {Vec4d:Entity80240464} 80000000 )
+   48:  Call     MakeItemEntity ( .Item:StopWatch {Vec3d:Item80240488} 0000000D *Flag_SBK_35 )
+   6C:  Call     MakeItemEntity ( .Item:LifeShroom {Vec3d:Item802404AC} 00000011 *Flag_SBK_34 )
+   90:  Return
+   98:  End

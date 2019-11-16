@@ -1,0 +1,123 @@
+@ $Script_Main
+   0:  Set  *WorldMapLocation  00000015 
+   10:  Call     SetSpriteShading 	( FFFFFFFF )
+   20:  Call     SetCamPerspective 	( .Default 00000003 00000019 00000010 00001000 )
+   40:  Call     SetCamBGColor 	( .Default 00000018 00000018 00000028 )
+   5C:  Call     SetCamFlag4 	( .Default .False )
+   70:  Call     SetCamFlag2 	( .Default .True )
+   84:  ExecWait $Script_80241A7C 
+   90:  Exec     $Script_80241240 
+   9C:  Set  *Var[0]  00000028 
+   AC:  Set  *Var[1]  00000028 
+   BC:  Set  *Var[2]  00000000 
+   CC:  Exec     $Script_80241438 
+   D8:  Set  *Var[0]  00000002 
+   E8:  Set  *Var[1]  00000001 
+   F8:  Exec     $Script_80241390 
+  104:  Exec     $Script_8024163C 
+  110:  Wait     00000001 
+  11C:  If  *Flag_PRA_0C  ==  00000000 
+  12C:  	Bind     $Script_80241688 .Trigger:PointBomb $TriggerCoord_80241668 00000001 00000000 
+  148:  Else
+  150:  	Call     EnableModel 	( {Model:g289} .False )
+  164:  	Call     ModifyColliderFlags 	( 00000000 {Collider:deilittsw} 7FFFFE00 )
+  17C:  EndIf
+  184:  If  *Flag_PRA_0D  ==  00000000 
+  194:  	Bind     $Script_802416DC .Trigger:PointBomb $TriggerCoord_80241678 00000001 00000000 
+  1B0:  Else
+  1B8:  	Call     EnableModel 	( {Model:g260} .False )
+  1CC:  	Call     ModifyColliderFlags 	( 00000000 {Collider:deilittnw} 7FFFFE00 )
+  1E4:  EndIf
+        If  *Flag_PRA_20  ==  00000000
+		    %Call     802D5830 ( 00000001 )
+		   	%Call     DisablePlayerInput	( .True )
+	        %Call     ShowMessage     	( $EntryString 000000A0 00000028 )
+	        %Call     DisablePlayerInput	( .False )
+			%Call     802D5830 ( 00000000 )
+                 Bind     $Script_WallTalk .Trigger:WallPressA {Collider:dino1talk} 00000001 00000000 
+			Call     MakeNpcs    	( 00000001 $NpcGroupList_BooBossNotBeaten )
+        Else 
+    	    Call     EnableModel 	( {Model:newmodel} .False )
+    	    Call     ModifyColliderFlags 	( 00000000 {Collider:dinowall} 7FFFFE00
+       EndIf			
+  1EC:  Return
+  1F4:  End
+  
+#new:NpcGroupList $NpcGroupList_BooBossNotBeaten 
+00000001 $NpcGroup_BooBoss  1F040000
+00000000 00000000 00000000 
+   
+#new:Script $Script_WallTalk
+If *Flag_PRA_21 == 00000001
+    Call     DisablePlayerInput 	( .True )
+    Call     ShowMessage     	( $DefeatedString 000000A0 00000028 )
+	  Call     DisablePlayerInput 	( .False )
+Else
+	  Call     DisablePlayerInput 	( .True )
+    Call     ShowMessage     	( $TauntString 000000A0 00000028 )
+	Wait 00000002
+	Set  *MapFlag[0] .True
+EndIf
+	Return
+	End
+
+#string $TauntString
+{DelayOff}[STYLE:RIGHT]
+We've been waiting for you.[BR]
+Are you prepared to face us?[BR]
+{DelayOn}[WAIT][END]
+
+#string $DefeatedString
+{DelayOff}[STYLE:RIGHT]Your strength is impressive.[BR][PAUSE:05]
+{DelayOn}[WAIT][END]
+
+#string $DefeatString
+{DelayOff}[STYLE:RIGHT]Your strength is impressive.[BR][PAUSE:05]
+But more trials await you.[BR][PAUSE:15]
+{DelayOn}[WAIT][END]
+
+   #new:NpcGroup $NpcGroup_BooBoss
+00000000 $BlankSettings {Vec3f:booboss} % 1260 0 -40
+00A40D01 $Script_Init_802421EC 00000000 00000000 00000000 
+{NoItems} {NoHP} {NoFP} {NoCoinBonus}
+{Movement:booboss}
+00950001 00950002 00950003 00950003 00950001 00950001 00950000 00950000 
+00950001 00950002 00950003 00950003 00950001 00950001 00950000 00950000
+00000000 00000000 00000000 00000000 % no tattle string
+
+#new:NpcSettings $BlankSettings
+00000000 00200018 00000000 00000000 00000000 00000000 00000000 00000000 
+00000000 00000000 00630000
+
+   #new:Script $Script_Init_802421EC
+		Call     BindNpcIdle 		( .Npc:Self $Script_IdleAI )
+      If  *Flag_PRA_21  ==  00000000 
+     	Call     BindNpcDefeat 	( .Npc:Self $Script_Defeat )
+     Else
+     	Call     80044478 ( FFFFFFFF )
+     EndIf
+     Return
+     End
+	 
+	 #new:Script $Script_IdleAI
+	Loop
+		If  *MapFlag[0]  ==  .True 
+		 	Call     StartBossBattle 	( .Song:SpecialBattle )
+		EndIf
+		Wait     00000001 
+	EndLoop
+	Return
+	End
+	
+	#new:Script $Script_Defeat
+		Call     DisablePlayerInput	( .False )
+    	    Call     EnableModel 	( {Model:newmodel} .False )
+    	    Call     ModifyColliderFlags 	( 00000000 {Collider:dinowall} 7FFFFE00
+   18:  Set  *Flag_PRA_21  00000001
+        Set  *Flag_PRA_20  00000001   
+   28:  Call     DoNpcDefeat 	( )
+   		Call     SetMusicTrack		( 00000000 .Song:CrystalPalace 00000000 00000008 )
+		 Call     ShowMessage     	( $DefeatString 000000A0 00000028 )	
+		Set  *MapFlag[0] .False 		
+   34:  Return
+   3C:  End

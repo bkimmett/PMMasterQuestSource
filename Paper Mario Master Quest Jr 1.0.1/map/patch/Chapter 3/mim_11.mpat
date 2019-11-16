@@ -1,0 +1,112 @@
+ @ $Script_Main
+    0:  Set  *WorldMapLocation  0000000D 
+   10:  Set  *Flag_MAP_0E  00000001 
+   20:  Call     SetSpriteShading 	( 00070009 )
+   30:  Call     SetCamPerspective 	( .Default 00000003 00000019 00000010 00001000 )
+   50:  Call     SetCamBGColor 	( .Default 00000000 00000000 00000000 )
+   6C:  Call     SetCamFlag2 	( .Default .True )
+   80:  Call     SetCamFlag4 	( .Default .False )
+   94:  Call     EnableGroup 	( {Model:g62} .False )   
+  If  *Flag_MIM_11  ==  00000001 
+   	Call     ModifyColliderFlags 	( 00000000 {Collider:boowall} 7FFFFE00 )
+	Call     MakeNpcs    	( 00000001 $NpcGroupList_80243818 ) 
+  Else
+  	Call     MakeNpcs    	( 00000001 $NpcGroupList_BooBossNotBeaten ) 
+  EndIf
+   BC:  ExecWait $Script_80243140 
+   C8:  Exec     $Script_802430E0 
+   D4:  Exec     $Script_80244214 
+   E0:  Exec     $Script_80240C60 
+   EC:  Exec     $Script_802420A8 
+   F8:  Call     $Function_802405EC ( )
+  104:  Return
+  10C:  End
+ 
+#new:NpcGroupList $NpcGroupList_BooBossNotBeaten
+00000002 $NpcGroup_80243438 00000000 
+00000001 $NpcGroup_BooBoss  0D0C0000
+00000000 00000000 00000000
+ 
+#new:Script $Script_802421A8
+		Call     DisablePlayerInput	( .False )
+    0:  Call     ModifyColliderFlags 	( 00000000 {Collider:boowall} 7FFFFE00 )
+   18:  Set  *Flag_MIM_11  00000001 
+   28:  Call     DoNpcDefeat 	( )
+   		Call     SetMusicTrack		( 00000000 .Song:ForeverForest 00000000 00000008 )
+		Set  *MapFlag[0] .False 
+		Call     SayMessage0		( .Npc:Self 00950004 00950004 00000000 $DefeatString )		
+   34:  Return
+   3C:  End
+   
+   #new:Script $Script_Interact
+	Call     SayMessage0 	( .Npc:Self 00950004 00950001 00000000 $TauntString )
+	Call     ShowChoice		( 001E001D ) % yes / no
+	If	*Var[0]  ==  0
+		Call     SayMessage2	( .Npc:Self 00950004 00950001 00000000 $AcceptString )
+		Call     DisablePlayerInput	( .True )
+		Set  *MapFlag[0] .True
+	Else
+		Call     SayMessage2	( .Npc:Self 00950004 00950001 00000000 $DeclineString )
+	EndIf
+	Return
+	End
+   
+   #new:Script $Script_Init_802421EC
+		Call     BindNpcIdle 		( .Npc:Self $Script_IdleAI )
+		Call     BindNpcInteract	( .Npc:Self $Script_Interact )
+      If  *Flag_MIM_11  ==  00000000 
+     	Call     BindNpcDefeat 	( .Npc:Self $Script_802421A8 )
+     Else
+     	Call     80044478 ( FFFFFFFF )
+     EndIf
+     Return
+     End
+	 
+#string $TauntString
+[STYLE:RIGHT]
+Mario! We've been waiting for[BR]
+you. Lady Bow has set up a few[BR]
+tests. Are you prepared for the[BR]
+first?[BR]
+{Func_04}[END]
+
+#string $AcceptString
+[NEXT]
+{StartFX:Shrinking}Then I hope you're ready for[BR]
+a fright!!![WAIT][END]
+
+#string $DeclineString
+[NEXT]
+Then you may not enter the[BR]
+mansion![WAIT][END]
+
+#string $DefeatString
+[STYLE:RIGHT]Arrrgh! Noooo![BR][PAUSE:05]
+We have failed you, Lady Bow!!![BR][PAUSE:15]
+{StartFX:Jitter}
+We're sorry!!!
+{EndFX:Jitter}
+[WAIT][END]
+
+#new:Script $Script_IdleAI
+	Loop
+		If  *MapFlag[0]  ==  .True 
+		 	Call     StartBossBattle 	( .Song:SpecialBattle )
+		EndIf
+		Wait     00000001 
+	EndLoop
+	Return
+	End
+   
+   #new:NpcGroup $NpcGroup_BooBoss
+0000000A $BlankSettings {Vec3f:booboss} % 1260 0 -40
+00A40D01 $Script_Init_802421EC 00000000 00000000 00000000 
+{NoItems} {NoHP} {NoFP} {NoCoinBonus}
+{Movement:booboss}
+00950001 00950002 00950003 00950003 00950001 00950001 00950000 00950000 
+00950001 00950002 00950003 00950003 00950001 00950001 00950000 00950000
+00000000 00000000 00000000 001A0122 % he has a tattle now!
+
+#new:NpcSettings $BlankSettings
+00000000 00200018 00000000 00000000 00000000 00000000 00000000 00000000 
+00000000 00000000 00630000 

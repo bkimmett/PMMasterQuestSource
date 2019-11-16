@@ -1,0 +1,3 @@
+%fix lw instruction
+@Function 1847B4
+LB	V0, 55B3 (AT)

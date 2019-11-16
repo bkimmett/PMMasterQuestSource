@@ -1,0 +1,17 @@
+$Script_Main:Script_Main:0:80240000:120
+$Start:Unknown:0:80240000:0
+$Script_SandFlow:Script:120:80240120:80
+$ShakeIt:Script:1A0:802401A0:80
+$MapTattle:IntTable:220:80240220:78
+$Script_Exit0:Script:298:80240298:5C
+$Script_TriggerLeft:Script:2F4:802402F4:44
+$Script_CreateEntities:Script:338:80240338:44
+$Header:Header:37C:8024037C:40
+$Demo_LavaResetList:LavaResetList:3BC:802403BC:30
+$Script_MakeExits:Script:3EC:802403EC:2C
+$Function_Init:Function_Init:418:80240418:2C
+$Function_GetTattle:Function:444:80240444:14
+$EntryList:EntryList:458:80240458:10
+$ASCII_kmr_50_Literal:ASCII:468:80240468:C
+$ASCII_kpa_tex_Literal:ASCII:474:80240474:8
+$End:Unknown:47C:8024047C:27B84

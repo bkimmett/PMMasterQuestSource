@@ -1,0 +1,16 @@
+$MapTattle:IntTable:0:80240000:128
+$Start:Unknown:0:80240000:0
+$Script_Main:Script_Main:128:80240128:E8
+$Script_TalkLeft:Script:210:80240210:B4
+$ShakeIt:Script:2C4:802402C4:80
+$YouDidGoodKidString:IntTable:344:80240344:78
+$ComeBackLaterString:IntTable:3BC:802403BC:70
+$Script_Entry1:Script:42C:8024042C:5C
+$Header:Header:488:80240488:40
+$Script_MakeExits:Script:4C8:802404C8:2C
+$Function_Init:Function_Init:4F4:802404F4:2C
+$Function_GetTattle:Function:520:80240520:14
+$EntryList:EntryList:534:80240534:10
+$ASCII_kmr_37_Literal:ASCII:544:80240544:C
+$ASCII_kpa_tex_Literal:ASCII:550:80240550:8
+$End:Unknown:558:80240558:27AA8
